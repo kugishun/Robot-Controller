@@ -22,4 +22,13 @@
 - Unity 6000.1.15f1>=
 
 ## 設定
+### mocopiアプリ
+スマホにmocopiアプリをダウンロードしてください｡
 
+以下のURLを参考に設定してください｡  
+https://www.sony.co.jp/en/Products/mocopi-dev/jp/documents/ReceiverPlugin/SendData.html
+
+1. mocopiアプリとPCとの接続を設定
+2. mocopiアプリを送信モードに切り替える
+
+### stretch sense
