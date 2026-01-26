@@ -8,7 +8,7 @@ import asyncio
 from pythonosc.osc_server import AsyncIOOSCUDPServer
 from pythonosc.dispatcher import Dispatcher
 
-# ====== UDP設定 ======
+# ====== Unity-UDP設定 ======
 PC_IP = "0.0.0.0"
 UNITY_PORT = 7001
 
