@@ -13,7 +13,7 @@
     L ``requirement.txt``
 
 ``main_controller``: StretuchSenseとmocopiとの通信とmyCobotとの通信用コードが格納されている  
-    L ``main_controller_v1.py``    : 制御用コード
+    L ``main_controller_v1.py``    : 制御用コード 
     L``requirement.txt``
 
 ## 環境構築
