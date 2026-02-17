@@ -13,7 +13,7 @@ PC_IP = "0.0.0.0"
 UNITY_PORT = 7001
 
 # ====== myCobot送信設定 ======
-MYCOBOT_IP = "172.22.94.105"   # ← myCobot Raspberry Pi のIP
+MYCOBOT_IP = "192.168.1.150"   # ← myCobot Raspberry Pi のIP
 MYCOBOT_PORT = 7010
 
 # ====== stretchSense受信設定 ======
