@@ -3,7 +3,7 @@ import json
 import threading
 import queue
 import time
-from pymycobot.mycobot320 import MyCobot320
+from pymycobot.mycobot import MyCobot
 # from MyHand import MyGripper_H100
 
 # ====== UDP受信設定 ======
@@ -29,7 +29,7 @@ def udp_receiver():
 
 def data_processor():
     """常に最新のデータだけ処理"""
-    mc = MyCobot320("/dev/ttyAMA0", 115200)
+    mc = MyCobot("/dev/ttyAMA0", 115200)
     # hand = MyGripper_H100("/dev/ttyCH343USB0")
     mc.power_on()
     # hand.set_gripper_pose(4, 15)
