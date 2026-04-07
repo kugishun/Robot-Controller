@@ -1,4 +1,7 @@
 # Robot-Controller
+
+[English](README_en.md) | [中文](README_zh.md)
+
 <!-- - stretch_senseの使い方
 - mocopino使い方
 - UDP通信をしてロボットアームにデータを送信する方法
