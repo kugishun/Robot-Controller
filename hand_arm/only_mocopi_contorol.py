@@ -33,6 +33,7 @@ def data_processor():
     # hand = MyGripper_H100("/dev/ttyCH343USB0")
     mc.power_on()
     # hand.set_gripper_pose(4, 15)
+    mc.set_fresh_mode(1)
 
     while True:
         try:
