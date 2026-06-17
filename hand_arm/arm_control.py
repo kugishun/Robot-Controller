@@ -32,6 +32,7 @@ def data_processor():
     mc = MyCobot("/dev/ttyAMA0", 115200)
     hand = MyGripper_H100("/dev/ttyCH343USB0")
     mc.power_on()
+    mc.set_fresh_mode(1)
     hand.set_gripper_pose(4, 15)
 
     while True:

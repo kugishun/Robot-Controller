@@ -1,4 +1,4 @@
-import socket
+﻿import socket
 import json
 import threading
 import queue
@@ -12,6 +12,11 @@ PORT = 7010
 
 # ====== キュー（受信データを処理スレッドに渡す） ======
 data_queue = queue.Queue()
+
+# ====== myCobot制御周期 ======
+CONTROL_HZ = 20
+CONTROL_INTERVAL = 1.0 / CONTROL_HZ
+LOG_INTERVAL = 0.5
 
 def udp_receiver():
     """UDPでデータを受信してキューに格納"""
@@ -28,31 +33,48 @@ def udp_receiver():
             print("UDP recv error:", e)
 
 def data_processor():
-    """常に最新のデータだけ処理"""
+    """常に最新のデータだけを20Hz上限で処理"""
     mc = MyCobot("/dev/ttyAMA0", 115200)
     # hand = MyGripper_H100("/dev/ttyCH343USB0")
     mc.power_on()
     # hand.set_gripper_pose(4, 15)
+    mc.set_fresh_mode(1)
+
+    latest_msg = None
+    next_control_time = time.monotonic()
+    last_log_time = 0.0
 
     while True:
         try:
-            latest_msg = None
-            # キューを一気に掃き出し → 最後の1件だけ残す
+            # キューを一気に掃き出し、最新の1件だけ保持する
             while not data_queue.empty():
                 latest_msg = data_queue.get_nowait()
 
+            now = time.monotonic()
             if latest_msg is None:
                 time.sleep(0.001)  # CPU負荷軽減
                 continue
 
-            if "angles" in latest_msg:
-                angles = latest_msg["angles"]
-                print("[Processor] angles:", angles)
-                mc.send_angles(angles, 30)
+            if now < next_control_time:
+                time.sleep(min(0.001, next_control_time - now))
+                continue
 
-            if "gripper" in latest_msg:
-                gripper = latest_msg["gripper"]
-                print("[Processor] gripper:", gripper)
+            msg_to_send = latest_msg
+            latest_msg = None
+            next_control_time = now + CONTROL_INTERVAL
+
+            if "angles" in msg_to_send:
+                angles = msg_to_send["angles"]
+                if now - last_log_time >= LOG_INTERVAL:
+                    print("[Processor] angles:", angles)
+                    last_log_time = now
+                mc.send_angles(angles, 50)
+
+            if "gripper" in msg_to_send:
+                gripper = msg_to_send["gripper"]
+                if now - last_log_time >= LOG_INTERVAL:
+                    print("[Processor] gripper:", gripper)
+                    last_log_time = now
                 # hand.set_gripper_joint_angle(1, int(gripper[2]))
                 # hand.set_gripper_joint_angle(2, int(gripper[1]))
                 # hand.set_gripper_joint_angle(3, int(gripper[0]))
