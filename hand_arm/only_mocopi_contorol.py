@@ -49,7 +49,7 @@ def data_processor():
             if "angles" in latest_msg:
                 angles = latest_msg["angles"]
                 print("[Processor] angles:", angles)
-                mc.send_angles(angles, 30)
+                mc.send_angles(angles, 50)
 
             if "gripper" in latest_msg:
                 gripper = latest_msg["gripper"]
